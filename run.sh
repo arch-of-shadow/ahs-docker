@@ -54,11 +54,14 @@ if [ -n "$MOUNT_INFO" ]; then
   MOUNT_INFO=$(eval echo $MOUNT_INFO)
 fi
 
+# extract ubuntu:22.04 in "FROM ubuntu:22.04 AS builder" from Dockerfile
+BASE_IMAGE=$(grep -oP 'FROM \K\S+(?= AS)' Dockerfile)
+
 # echo the task to be executed
 echo_task() {
   echo "COMMAND: $COMMAND"
   if [ "$COMMAND" = "pull" ]; then
-    echo "  IMG_NAME: $IMG_NAME"
+    echo "  BASE_IMAGE: $BASE_IMAGE"
   fi
   if [ "$COMMAND" = "build" ]; then
     echo "  IMG_NAME: $IMG_NAME"
@@ -80,7 +83,7 @@ echo_task
 execute_task() {
   # TODO: allow user to specify the base-image
   if [ "$COMMAND" = "pull" ]; then
-    docker pull ubuntu:22.04
+    docker pull $BASE_IMAGE
   fi
 
   if [ "$COMMAND" = "build" ]; then
