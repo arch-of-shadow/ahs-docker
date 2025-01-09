@@ -26,7 +26,7 @@ RUN \
 # Install utils
 RUN ln -s /usr/bin/python3 /usr/bin/python
 RUN pip3 install rich parse scipy seaborn matplotlib
-RUN apt-get update && apt-get install -y cloc zip ssh ninja-build
+RUN apt-get update && apt-get install -y cloc zip ssh ninja-build gperf
 
 # Set proxy
 INCLUDE+ Dockerfile.proxy
