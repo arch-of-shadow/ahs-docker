@@ -26,11 +26,10 @@ RUN \
 # Install utils
 RUN ln -s /usr/bin/python3 /usr/bin/python
 RUN pip3 install rich parse scipy seaborn matplotlib
-RUN apt-get update && apt-get install -y cloc zip ssh ninja-build gperf
+RUN apt-get update && apt-get install -y cloc zip ssh ninja-build gperf openssh-server
 
 # Set proxy
 INCLUDE+ Dockerfile.proxy
-
 
 # Install Java and SBT
 RUN \
@@ -43,8 +42,13 @@ RUN \
 RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"
 
+# cp ./repos to /root/repos
+COPY repos /root/repos
+
 # add /root/.local/bin to PATH in bash
-RUN echo "export PATH=\"/root/.local/bin:\$PATH\"" >> /root/.bashrc
+RUN echo "export PATH=\"/root/.cargo/bin:/root/.local/bin:\$PATH\"" >> /root/.bashrc
+
+# echo export POPAPATH=/root/repos/popa/install
+RUN echo "export POPAPATH=\"/root/repos/popa/install\"" >> /root/.bashrc
 
 CMD [ "/bin/bash", "-l" ]
-
