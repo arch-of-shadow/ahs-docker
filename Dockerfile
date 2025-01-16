@@ -51,4 +51,6 @@ RUN echo "export PATH=\"/root/.cargo/bin:/root/.local/bin:\$PATH\"" >> /root/.ba
 # echo export POPAPATH=/root/repos/popa/install
 RUN echo "export POPAPATH=\"/root/repos/popa/install\"" >> /root/.bashrc
 
+RUN echo "export REPOS=\"/root/repos\"" >> /root/.bashrc
+
 CMD [ "/bin/bash", "-l" ]
